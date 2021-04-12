@@ -1,0 +1,41 @@
+
+#define assert(x) if(!(x)) __debugbreak();
+#include <vector>
+
+// solution
+typedef /*todo*/ answerType;
+
+answerType solution(int n, std::vector<int> times)
+{
+    // todo
+}
+
+// test
+class Test
+{
+    public: struct TestInput
+    {
+        // todo
+    };
+
+    private:
+    vector<TestInput> test_cases;
+    vector<answerType>; answers;
+    
+    public:
+    void push(TestInput t, answerType a)
+    {
+        test_cases.push_back(t);
+        answers.push_back(a);
+    }
+    
+    void test()
+    {   
+        // todo
+
+        for(int i=0;i<test_cases.size();i++)
+        {
+            assert(answers[i]==solution( /*type here*/ ));
+        }
+    }
+};
