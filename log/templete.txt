@@ -1,12 +1,13 @@
 
 #include <vector>
 #include <iostream>
+using namespace std;
 // solution
-typedef /*todo*/ answerType;
+typedef TODO! answerType;
 
-answerType solution(int n, std::vector<int> times)
+answerType solution( TODO! )
 {
-    // todo
+    return 0;
 }
 
 // test
@@ -14,12 +15,12 @@ class Test
 {
     public: struct TestInput
     {
-        // todo
+        TODO!
     };
 
     private:
     vector<TestInput> test_cases;
-    vector<answerType>; answers;
+    vector<answerType> answers;
     
     public:
     void push(TestInput t, answerType a)
@@ -30,13 +31,11 @@ class Test
     
     void test()
     {   
-        // todo
-
         std::cout << "total " << test_cases.size() << " cases" << std::endl;
         int count = 0;
         for(int i=0;i<test_cases.size();i++)
         {
-            answerType ans = solution( /*todo*/ );
+            answerType ans = solution(  TODO!    );
             try
             {
                 if(ans == answers[i])
