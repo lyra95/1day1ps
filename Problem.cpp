@@ -7,10 +7,11 @@ using namespace std;
 
 string getDate()
 {
-    std::ifstream f("./log/date.txt");
+    std::ifstream f;
+    f.open("./log/date.txt");
     if(f.fail())
     {
-        std::cerr << "file does not exist" << std::endl;
+        std::wcerr << "file does not exist" << std::endl;
         exit(100);
     }
     string date;
@@ -20,7 +21,8 @@ string getDate()
 
 void updateDate(const string date)
 {
-    ofstream f("./log/date.txt");
+    ofstream f;
+    f.open("./log/date.txt");
     f << date;
 }
 
@@ -53,7 +55,7 @@ class Problem
 
         printInfo();
         message("creation succeeded. Going back to menu")
-        cin >> temp;
+        std::getline(cin,temp);
     }
     void printInfo()
     {
@@ -66,14 +68,16 @@ class Problem
     void createCPP()
     {
         updateDate(date);
-        ofstream f("solution.cpp");
+        ofstream f;
+        f.open("solution.cpp");
         f << "// " << date << endl;
         f << "// " << source << endl;
         f << "// " << level << endl;
         f << "// " << name << endl;
         f << "// " << link << endl;
 
-        ifstream ifs("log/templete.txt");
+        ifstream ifs;
+        ifs.open("log/templete.txt");
         while(!ifs.eof())
         {
             string line;
@@ -96,7 +100,8 @@ void MoveCPP()
 
     string date = getDate();
     string newPath = "solved/"+date+".cpp";
-    ofstream newf(newPath);
+    ofstream newf;
+    newf.open(newPath);
 
 
     string code;

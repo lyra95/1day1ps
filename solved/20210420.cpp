@@ -1,69 +1,33 @@
-// 20210421
+// 20210420
 // programmers
 // level2
-// 조이스틱
-// https://programmers.co.kr/learn/courses/30/lessons/42860
-
+// 더맵게
+// https://programmers.co.kr/learn/courses/30/lessons/42626
+#include <queue>
 #include <vector>
 #include <iostream>
 using namespace std;
 // solution
 typedef int answerType;
 
-int min(int a,int b)
-{
-    return (a>b) ? b:a;
-}
-int UpDown(char x)
-{
-    int foward = x-'A';
-    int backward = 'Z'-x+1;
-    return (foward > backward) ? backward : foward;
-}
-
-int solution(string name) {
-    int answer=0;
-    for(int pos=0;pos<name.size();pos++)
+int solution(vector<int> scoville, int K) {
+    priority_queue<int,vector<int>,greater<int>> q(scoville.begin(),scoville.end());
+    int count=0;
+    while(q.size()>1)
     {
-        answer += UpDown(name[pos]);
-    }
-    
-    int forward = 0;
-    int backward = name.size()-1;
-    int third=0;
-    for(int pos=0;pos<name.size();pos++)
-    {
-        if(name[pos]!='A')
+        if(q.top()<K)
         {
-            forward = pos;
+            int first = q.top();
+            q.pop();
+            int second = q.top();
+            q.pop();
+            q.push(first+2*second);
+            count++;
         }
+        else
+            return count;
     }
-    for(int pos=name.size();pos>0;pos--)
-    {
-        if(name[pos]!='A')
-        {
-            backward = pos;
-        }
-    }
-    backward = name.size()-backward;
-    for(int pos=0;2*pos<name.size();pos++)
-    {
-        if(name[pos]!='A')
-        {
-            third = pos;
-        }
-    }
-    third = 2*third;
-    int temp;
-    for(int pos=name.size();pos>=name.size()/2;pos--)
-    {
-        if(name[pos]!='A')
-        {
-            temp = pos;
-        }
-    }
-    third += name.size()-temp;
-    return answer+min(forward,min(backward,third));
+    return (q.top() < K) ? -1:count;
 }
 
 // test
@@ -71,7 +35,8 @@ class Test
 {
     public: struct TestInput
     {
-        string name;
+        vector<int> scoville;
+        int K;
     };
 
     private:
@@ -85,14 +50,21 @@ class Test
         answers.push_back(a);
     }
     
+    void helper()
+    {
+        TestInput t{{1, 2, 3, 9, 10, 12},7};
+        int ans =2;
+        push(t,ans);
+    }
+
     void test()
     {   
-        push(TestInput{"JEROEN"},56);
+        helper();
         std::cout << "total " << test_cases.size() << " cases" << std::endl;
         int count = 0;
         for(int i=0;i<test_cases.size();i++)
         {
-            answerType ans = solution(  test_cases[i].name    );
+            answerType ans = solution(  test_cases[i].scoville, test_cases[i].K    );
             try
             {
                 if(ans == answers[i])
@@ -114,3 +86,4 @@ class Test
         std::cout << "passed total " << count << " cases over " << test_cases.size() << " cases." << std::endl;
     }
 };
+
