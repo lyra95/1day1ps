@@ -7,9 +7,9 @@
 			"command": "C:\\Program Files\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe",
 			"args": [
 				"-g",
-				"${workspaceFolder}\\main.cpp",//"${file}",
+				"${workspaceFolder}\\main.cpp",
 				"-o",
-				"main.exe",//"${fileDirname}\\${fileBasenameNoExtension}.exe",
+				"main.exe",
 				"-std=c++17"
 			],
 			"options": {
@@ -22,6 +22,25 @@
 				"kind": "build",
 				"isDefault": true
 			},
+			"detail": "컴파일러: \"C:\\Program Files\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe\""
+		},
+		{
+			"type": "cppbuild",
+			"label": "C/C++: g++.exe 활성 파일 빌드",
+			"command": "C:\\Program Files\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe",
+			"args": [
+				"-g",
+				"${file}",
+				"-o",
+				"${fileDirname}\\${fileBasenameNoExtension}.exe"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build",
 			"detail": "컴파일러: \"C:\\Program Files\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe\""
 		}
 	]

@@ -72,7 +72,7 @@ class Problem
         f.open("solution.cpp");
         f << "// " << date << endl;
         f << "// " << source << endl;
-        f << "// " << level << endl;
+        f << "// level" << level << endl;
         f << "// " << name << endl;
         f << "// " << link << endl;
 
