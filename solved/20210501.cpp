@@ -1,38 +1,20 @@
-// 20210503
+// 20210501
 // programmers
 // level2
-// 구명보트
-// https://programmers.co.kr/learn/courses/30/lessons/42885
+// H-Index
+// https://programmers.co.kr/learn/courses/30/lessons/42747
 
 #include <vector>
+#include <functional>
 #include <iostream>
-#include <algorithm>
-#include <queue>
 using namespace std;
-
 // solution
-int solution(vector<int> people, int limit) {
-    sort(people.begin(),people.end(), greater<int>());
-    int front = 0;
-    int back = people.size()-1;
+int solution(vector<int> citations) {
+    sort(citations.begin(),citations.end(),std::greater<int>());
     
-    int ans=0;
-    while(front < back)
-    {
-        int max = people[front];
-        int min = people[back];
-        if(max+min <= limit)
-        {
-            front++;
-            back--;
-        } else
-        {
-            front++;
-        }
-        ans++;
-    }
-    if(front==back) ans++;
-    return ans;
+    int h = citations.size();
+    while(citations[h-1] < h) { h--; }
+    return h;
 }
 
 typedef int answerType;
@@ -41,8 +23,7 @@ class Test
 {
     public: struct TestInput
     {
-        vector<int> people;
-        int limit;
+        vector<int> citations;
     };
 
     private:
@@ -58,9 +39,9 @@ class Test
     void helper()
     {
         {
-            //[70, 50, 80, 50] 	100 	3
-            TestInput t{vector<int>{70,50,80,50},100};
-            int ans=3;
+            // [3, 0, 6, 1, 5] 	3
+            TestInput t{vector<int>{3,0,6,1,5}};
+            int ans = 3;
             push(t,ans);
         }
     }
@@ -71,7 +52,7 @@ class Test
         int count = 0;
         for(int i=0;i<test_cases.size();i++)
         {
-            answerType ans = solution(  test_cases[i].people, test_cases[i].limit    );
+            answerType ans = solution(  test_cases[i].citations    );
             try
             {
                 if(ans == answers[i])
@@ -93,3 +74,4 @@ class Test
         std::cout << "passed total " << count << " cases over " << test_cases.size() << " cases." << std::endl;
     }
 };
+

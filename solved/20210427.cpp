@@ -1,48 +1,62 @@
-// 20210503
+// 20210427
 // programmers
 // level2
-// 구명보트
-// https://programmers.co.kr/learn/courses/30/lessons/42885
+// 타겟넘버
+// https://programmers.co.kr/learn/courses/30/lessons/43165
 
 #include <vector>
 #include <iostream>
-#include <algorithm>
-#include <queue>
 using namespace std;
-
 // solution
-int solution(vector<int> people, int limit) {
-    sort(people.begin(),people.end(), greater<int>());
-    int front = 0;
-    int back = people.size()-1;
-    
-    int ans=0;
-    while(front < back)
+typedef int answerType;
+
+struct Node
+{
+    int data;
+    Node* next;
+};
+
+void dfs(Node* node, vector<int> & ways)
+{
+    if(node==nullptr) return;
+
+    vector<int> ways_{};
+    for(int t:ways)
     {
-        int max = people[front];
-        int min = people[back];
-        if(max+min <= limit)
-        {
-            front++;
-            back--;
-        } else
-        {
-            front++;
-        }
-        ans++;
+        ways_.push_back(t+node->data);
+        ways_.push_back(t-node->data);
     }
-    if(front==back) ans++;
-    return ans;
+    ways = ways_;
+    dfs(node->next, ways);
+}
+int solution(vector<int> numbers, int target)
+{
+    Node* root = new Node{0,nullptr};
+    Node* current = root;
+    for(int x:numbers)
+    {
+        current->next = new Node{x,nullptr};
+        current = current->next;
+    }
+    
+    vector<int> ways(1);
+    dfs(root->next,ways);
+
+    int count = 0;
+    for(int x:ways)
+    {
+        if(x==target) count++;
+    }
+    return count;
 }
 
-typedef int answerType;
 // test
 class Test
 {
     public: struct TestInput
     {
-        vector<int> people;
-        int limit;
+        vector<int> numbers;
+        int target;
     };
 
     private:
@@ -57,11 +71,12 @@ class Test
     }
     void helper()
     {
-        {
-            //[70, 50, 80, 50] 	100 	3
-            TestInput t{vector<int>{70,50,80,50},100};
-            int ans=3;
-            push(t,ans);
+        {   
+            vector<int> v{1,1,1,1,1};
+            int target = 3;
+            TestInput t{v,target};
+            int ans = 5;
+            push(t, ans);
         }
     }
     void test()
@@ -71,7 +86,7 @@ class Test
         int count = 0;
         for(int i=0;i<test_cases.size();i++)
         {
-            answerType ans = solution(  test_cases[i].people, test_cases[i].limit    );
+            answerType ans = solution(  test_cases[i].numbers, test_cases[i].target   );
             try
             {
                 if(ans == answers[i])
@@ -93,3 +108,4 @@ class Test
         std::cout << "passed total " << count << " cases over " << test_cases.size() << " cases." << std::endl;
     }
 };
+

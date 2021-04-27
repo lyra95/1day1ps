@@ -1,48 +1,33 @@
-// 20210503
+// 20210502
 // programmers
 // level2
-// 구명보트
-// https://programmers.co.kr/learn/courses/30/lessons/42885
+// 카펫
+// https://programmers.co.kr/learn/courses/30/lessons/42842
 
 #include <vector>
 #include <iostream>
-#include <algorithm>
-#include <queue>
 using namespace std;
-
 // solution
-int solution(vector<int> people, int limit) {
-    sort(people.begin(),people.end(), greater<int>());
-    int front = 0;
-    int back = people.size()-1;
-    
-    int ans=0;
-    while(front < back)
+vector<int> solution(int brown, int yellow) {
+    vector<int> answer(2);
+    for(int width=1;width*width <= yellow;width++)
     {
-        int max = people[front];
-        int min = people[back];
-        if(max+min <= limit)
-        {
-            front++;
-            back--;
-        } else
-        {
-            front++;
-        }
-        ans++;
+        if(yellow%width!=0) continue;
+        int height = yellow/width;
+        if((width+2)*(height+2)==brown+yellow)
+            return vector<int>{height+2,width+2};
     }
-    if(front==back) ans++;
-    return ans;
+    return answer;
 }
 
-typedef int answerType;
+typedef vector<int> answerType;
 // test
 class Test
 {
     public: struct TestInput
     {
-        vector<int> people;
-        int limit;
+        int brown;
+        int yellow;
     };
 
     private:
@@ -58,9 +43,8 @@ class Test
     void helper()
     {
         {
-            //[70, 50, 80, 50] 	100 	3
-            TestInput t{vector<int>{70,50,80,50},100};
-            int ans=3;
+            TestInput t{24,24};
+            vector<int> ans{8,6};
             push(t,ans);
         }
     }
@@ -71,7 +55,7 @@ class Test
         int count = 0;
         for(int i=0;i<test_cases.size();i++)
         {
-            answerType ans = solution(  test_cases[i].people, test_cases[i].limit    );
+            answerType ans = solution(  test_cases[i].brown, test_cases[i].yellow );
             try
             {
                 if(ans == answers[i])
@@ -81,7 +65,7 @@ class Test
                 }
                 else
                 {
-                    std::cout << "failed "<< i+1 << "th case, ans=" << answers[i] << " given=" << ans << std::endl;
+                    std::cout << "failed "<< i+1 << "th case, ans=" << answers[i][0] << answers[i][1] << " given=" << ans[0] << ans[1] << std::endl;
                 }
 
             }
@@ -93,3 +77,4 @@ class Test
         std::cout << "passed total " << count << " cases over " << test_cases.size() << " cases." << std::endl;
     }
 };
+

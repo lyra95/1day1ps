@@ -1,48 +1,38 @@
-// 20210503
+// 20210429
 // programmers
 // level2
-// 구명보트
-// https://programmers.co.kr/learn/courses/30/lessons/42885
+// 위장
+// https://programmers.co.kr/learn/courses/30/lessons/42578
 
 #include <vector>
 #include <iostream>
-#include <algorithm>
-#include <queue>
+#include <unordered_map>
 using namespace std;
-
 // solution
-int solution(vector<int> people, int limit) {
-    sort(people.begin(),people.end(), greater<int>());
-    int front = 0;
-    int back = people.size()-1;
-    
-    int ans=0;
-    while(front < back)
+typedef int answerType;
+
+int solution( vector<vector<string>> clothes )
+{
+    unordered_map<string,int> hash;
+    for(auto &pair:clothes)
     {
-        int max = people[front];
-        int min = people[back];
-        if(max+min <= limit)
-        {
-            front++;
-            back--;
-        } else
-        {
-            front++;
-        }
-        ans++;
+        hash[pair[1]]++;
     }
-    if(front==back) ans++;
-    return ans;
+
+    int ans = 1;
+    for(auto &pair: hash)
+    {
+        ans *= (pair.second+1);
+    }
+    return ans-1;
 }
 
-typedef int answerType;
 // test
 class Test
 {
     public: struct TestInput
     {
-        vector<int> people;
-        int limit;
+        vector<vector<string>> clothes;
     };
 
     private:
@@ -55,13 +45,14 @@ class Test
         test_cases.push_back(t);
         answers.push_back(a);
     }
+
     void helper()
     {
         {
-            //[70, 50, 80, 50] 	100 	3
-            TestInput t{vector<int>{70,50,80,50},100};
-            int ans=3;
-            push(t,ans);
+            vector<vector<string>> clothes{{"yellowhat", "headgear"}, {"bluesunglasses", "eyewear"}, {"green_turban", "headgear"}};
+            TestInput t{clothes};
+            int ans = 5;
+            push(t, ans);
         }
     }
     void test()
@@ -71,7 +62,7 @@ class Test
         int count = 0;
         for(int i=0;i<test_cases.size();i++)
         {
-            answerType ans = solution(  test_cases[i].people, test_cases[i].limit    );
+            answerType ans = solution(  test_cases[i].clothes  );
             try
             {
                 if(ans == answers[i])
@@ -93,3 +84,4 @@ class Test
         std::cout << "passed total " << count << " cases over " << test_cases.size() << " cases." << std::endl;
     }
 };
+

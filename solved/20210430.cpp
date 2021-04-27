@@ -1,48 +1,37 @@
-// 20210503
+// 20210430
 // programmers
 // level2
-// 구명보트
-// https://programmers.co.kr/learn/courses/30/lessons/42885
+// 가장큰수
+// https://programmers.co.kr/learn/courses/30/lessons/42746
 
 #include <vector>
+#include <string>
 #include <iostream>
+#include <functional>
 #include <algorithm>
-#include <queue>
 using namespace std;
-
 // solution
-int solution(vector<int> people, int limit) {
-    sort(people.begin(),people.end(), greater<int>());
-    int front = 0;
-    int back = people.size()-1;
-    
-    int ans=0;
-    while(front < back)
-    {
-        int max = people[front];
-        int min = people[back];
-        if(max+min <= limit)
-        {
-            front++;
-            back--;
-        } else
-        {
-            front++;
-        }
-        ans++;
-    }
-    if(front==back) ans++;
-    return ans;
+string solution(vector<int> numbers) {
+    vector<string> numbers_{};
+    for(int n:numbers)
+        numbers_.push_back(to_string(n));
+    auto comp = [](string a, string b){
+        return a+b > b+a;
+    };
+    sort(numbers_.begin(),numbers_.end(), comp);
+    string answer = "";
+    for(auto x:numbers_)
+        answer += x;
+    return (answer[0]!='0') ? answer:"0";
 }
 
-typedef int answerType;
+typedef string answerType;
 // test
 class Test
 {
     public: struct TestInput
     {
-        vector<int> people;
-        int limit;
+        vector<int> numbers;
     };
 
     private:
@@ -57,10 +46,11 @@ class Test
     }
     void helper()
     {
-        {
-            //[70, 50, 80, 50] 	100 	3
-            TestInput t{vector<int>{70,50,80,50},100};
-            int ans=3;
+        // [6, 10, 2] 	"6210"
+        {   
+            vector<int> numbers{6, 10, 2};
+            TestInput t{numbers};
+            string ans = "6210";
             push(t,ans);
         }
     }
@@ -71,7 +61,7 @@ class Test
         int count = 0;
         for(int i=0;i<test_cases.size();i++)
         {
-            answerType ans = solution(  test_cases[i].people, test_cases[i].limit    );
+            answerType ans = solution( test_cases[i].numbers );
             try
             {
                 if(ans == answers[i])
@@ -93,3 +83,4 @@ class Test
         std::cout << "passed total " << count << " cases over " << test_cases.size() << " cases." << std::endl;
     }
 };
+

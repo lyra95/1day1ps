@@ -3,13 +3,12 @@
 #include <iostream>
 using namespace std;
 // solution
-typedef TODO! answerType;
-
 answerType solution( TODO! )
 {
     return 0;
 }
 
+typedef TODO! answerType;
 // test
 class Test
 {
@@ -28,9 +27,13 @@ class Test
         test_cases.push_back(t);
         answers.push_back(a);
     }
-    
+    void helper()
+    {
+        TODO!
+    }
     void test()
     {   
+        helper();
         std::cout << "total " << test_cases.size() << " cases" << std::endl;
         int count = 0;
         for(int i=0;i<test_cases.size();i++)
