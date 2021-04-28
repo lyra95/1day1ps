@@ -1,38 +1,31 @@
-// 20210503
+// 20210505
 // programmers
-// level2
-// 구명보트
-// https://programmers.co.kr/learn/courses/30/lessons/42885
+// level3
+// 등굣길
+// https://programmers.co.kr/learn/courses/30/lessons/42898
 
 #include <vector>
 #include <iostream>
-#include <algorithm>
-#include <queue>
 using namespace std;
-
 // solution
-int solution(vector<int> people, int limit) {
-    sort(people.begin(),people.end(), greater<int>());
-    int front = 0;
-    int back = people.size()-1;
+int solution(int m, int n, vector<vector<int>> puddles) {
+    vector<vector<int>> noWater(m+1,vector<int>(n+1,1));
+    for(auto p:puddles)
+        noWater[p[0]][p[1]] = 0;
     
-    int ans=0;
-    while(front < back)
+    for(int i=2;i<=m;i++)
+        noWater[i][1] = noWater[i][1]*noWater[i-1][1];
+    for(int j=2;j<=n;j++)
+        noWater[1][j] = noWater[1][j]*noWater[1][j-1];
+    
+    for(int i=2;i<=m;i++)
     {
-        int max = people[front];
-        int min = people[back];
-        if(max+min <= limit)
+        for(int j=2;j<=n;j++)
         {
-            front++;
-            back--;
-        } else
-        {
-            front++;
+            noWater[i][j] = noWater[i][j]*(noWater[i-1][j]+noWater[i][j-1]);
         }
-        ans++;
     }
-    if(front==back) ans++;
-    return ans;
+    return noWater[m][n];
 }
 
 typedef int answerType;
@@ -41,8 +34,9 @@ class Test
 {
     public: struct TestInput
     {
-        vector<int> people;
-        int limit;
+        int m;
+        int n;
+        vector<vector<int>> puddles;
     };
 
     private:
@@ -57,12 +51,12 @@ class Test
     }
     void helper()
     {
-        {
-            //[70, 50, 80, 50] 	100 	3
-            TestInput t{vector<int>{70,50,80,50},100};
-            int ans=3;
-            push(t,ans);
-        }
+        // 4 	3 	[[2, 2]] 	4
+        int m=4;
+        int n=3;
+        vector<vector<int>> p{{2,2}};
+        int ans=4;
+        push(TestInput{m,n,p},ans);
     }
     void test()
     {   
@@ -71,7 +65,7 @@ class Test
         int count = 0;
         for(int i=0;i<test_cases.size();i++)
         {
-            answerType ans = solution(  test_cases[i].people, test_cases[i].limit    );
+            answerType ans = solution( test_cases[i].m , test_cases[i].n, test_cases[i].puddles    );
             try
             {
                 if(ans == answers[i])
