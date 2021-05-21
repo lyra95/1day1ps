@@ -12,7 +12,7 @@ int solution(int m, int n, vector<vector<int>> puddles) {
     vector<vector<int>> noWater(m+1,vector<int>(n+1,1));
     for(auto p:puddles)
         noWater[p[0]][p[1]] = 0;
-    
+    auto i = noWater.end()- noWater.begin();
     for(int i=2;i<=m;i++)
         noWater[i][1] = noWater[i][1]*noWater[i-1][1];
     for(int j=2;j<=n;j++)
