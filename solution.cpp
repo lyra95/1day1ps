@@ -1,55 +1,91 @@
-// 20210508
+// 20210509
 // programmers
-// level4
-// 도둑질
-// https://programmers.co.kr/learn/courses/30/lessons/42897
+// level5
+// 방의개수
+// https://programmers.co.kr/learn/courses/30/lessons/49190?language=cpp
 // test
-// t.push({vector<int>{500,600,150,800,2500}}, 3100);
+// t.push({{6, 6, 6, 4, 4, 4, 2, 2, 2, 0, 0, 0, 1, 6, 5, 5, 3, 6, 0}}, 3);
 // solution
-#include <string>
 #include <vector>
-
+#include <array>
+#include <map>
 using namespace std;
 
-int helper(int start, vector<int>& money, bool is_odd)
-{
-    int ans = 0;
-    for(int i=0;i<money.size()-is_odd;i+=2)
-    {
-        ans += money[(i+start)%money.size()];
-    }
-    return ans;
-}
+vector<vector<int>> convert = {{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1}};
 
-struct root
+class Plane
 {
-    int start;
-    int money;
+public:
+    Plane()
+    {
+        get()[8] = true;
+    }
+    ~Plane() = default;
+
+    array<bool,9>& get(int x, int y)
+    {
+        return plane[pos{x,y}];
+    }
+    array<bool,9>& get()
+    {
+        return plane[pos{current_x,current_y}];
+    }
+
+    bool new_area(int dir)
+    {
+        return get()[8] && !get()[dir];
+    }
+
+    void move(int dir)
+    {
+        get()[dir] = true;
+        int x = convert[dir][0];
+        int y = convert[dir][1];
+        current_x += x;
+        current_y += y;
+
+        auto opposite = (dir+4)%8;
+        if(new_area(opposite))
+            num_areas++;
+        get()[8] = true;
+        get()[opposite] = true;
+        get()[dir] = true;
+
+        current_x += x;
+        current_y += y;
+        if(new_area(opposite))
+            num_areas++;
+        get()[8] = true;
+        get()[opposite] = true;
+    }
+
+    int move(vector<int> arrows)
+    {
+        for(auto dir:arrows)
+            move(dir);
+        return num_areas;
+    }
+private:
+    struct pos
+    {
+        int x;
+        int y;
+        bool operator < (const pos& b) const
+        {
+            return (x > b.x) ? true : (x == b.x) ? y > b.y : false;
+        }
+    };
+    
+    map<pos,array<bool,9>> plane;
+    int current_x = 0;
+    int current_y = 0;
+    int num_areas = 0;
 };
 
-void next(root& r, const vector<int>& money)
-{
-    r.money = r.money - money[r.start] + money[(r.start-1+money.size())%(money.size())];
-    r.start = (r.start+2)%money.size();
-}
 
-int solution(vector<int> money) {
-    bool is_odd = money.size()%2 == 1;
-    root first = root{0,helper(0,money,is_odd)};
-    root second = root{1,helper(1,money,is_odd)};
-    
-    int answer = (first.money > second.money) ? first.money:second.money;
-    if(!is_odd)
-        return answer;
-    
-    for(int i=0;i<money.size();i++)
-    {
-        next(first,money);
-        next(second,money);
-        int temp = (first.money > second.money) ? first.money:second.money;
-        if(temp > answer) answer = temp;
-    }
-    
+int solution(vector<int> arrows) {
+    Plane p{};
+    int answer = p.move(arrows);
     
     return answer;
 }
@@ -60,7 +96,7 @@ class Test
 {
     public: struct TestInput
     {
-        vector<int> money;
+        vector<int> arrows;
     };
 
     private:
@@ -79,7 +115,7 @@ class Test
         int count = 0;
         for(int i=0;i<test_cases.size();i++)
         {
-            answerType ans = solution(  test_cases[i].money    );
+            answerType ans = solution(  test_cases[i].arrows   );
             try
             {
                 if(ans == answers[i])

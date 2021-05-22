@@ -65,7 +65,8 @@
         "stack": "cpp",
         "xtree": "cpp",
         "unordered_map": "cpp",
-        "xhash": "cpp"
+        "xhash": "cpp",
+        "array": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
