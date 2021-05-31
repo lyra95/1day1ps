@@ -1,0 +1,26 @@
+#include "test.h"
+
+// Fill this out (optional)
+// if << not defined for INPUT_TYPE
+ostream& operator<<(ostream& os, const INPUT_TYPE& data)
+{
+    // os << "\t\t" << TODO << endl;
+    return os;
+}
+
+// if << not defined for ANSERTYPE
+/*
+ostream& operator<<(ostream& os, const ANSERTYPE& data)
+{
+    os << " ";
+    return os;
+}
+*/
+
+int main()
+{
+    Test t;
+    t.push(TODO);   // use braced list wisely. ex: t.push({{1,2,3,4}},10);
+    t.run();
+    return 0;
+}
